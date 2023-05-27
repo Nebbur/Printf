@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-	static t_flags f;
+	static t_flags	f;
 
 	ft_pf_f_init(&f);
 	f.len = 0;
@@ -35,8 +35,6 @@ int ft_printf(const char *format, ...)
 	va_end(f.args);
 	return (f.len);
 }
-//csp
-//diuxX%
 
 static void	type_init(t_flags *f, char *s)
 {
@@ -45,27 +43,17 @@ static void	type_init(t_flags *f, char *s)
 	f->string = s;
 }
 
-const char *ft_pf_type(t_flags *f, char *s)
+const char	*ft_pf_type(t_flags *f, char *s)
 {
 	type_init(f, s);
 	if (ft_strchr("diuxX", f->specifier_type))
 		ft_diux(f);
 	else
 		ft_csp(f);
-	/*else if (ft_strchr("csp", f->specifier_type))
-	{
-		f->zero_pad_flag = ' ';
-		if (f->specifier_type == 's')
-			//ft_type_s(f);
-		else if (f->specifier_type == 'c')
-			//ft_type_c(f);
-		else
-			ft_type_p(f);
-	}*/
 	return ((const char *)s);
 }
 
-void ft_pf_f_init(t_flags *f)
+void	ft_pf_f_init(t_flags *f)
 {
 	f->string = NULL;
 	if (!f->len)
@@ -76,8 +64,31 @@ int main(void)
 {
 	int	len = 0, len_o = 0;
 
-    len = ft_printf("Here are some basic conversions: %c %s %p\n", 'A', "hello", &main);
-    len_o = printf("Here are some basic conversions: %c %s %p\n",'A', "hello", &main);
+    len = ft_printf("x: %x %x %x %x\n", 0x123, 456, 0x789, 0xE9);
+    len_o = printf("x: %x %x %x %x\n", 0x123, 456, 0x789, 0xE9);
+ 	printf("Lenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n", len_o);
+
+    len = ft_printf("X: %X %X %X %X\n", 0x123, 456, 0x789, 0xE9);
+    len_o = printf("X: %X %X %X %X\n", 0x123, 456, 0x789, 0xE9);
+	printf("Lenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n", len_o);
+	
+	len = ft_printf("%i | %i\n", INT_MIN, INT_MAX);
+	len_o = printf("%i | %i\n", INT_MIN, INT_MAX);
+
+	printf("\nLenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n\n", len_o);
+	len = ft_printf("%d | %d\n", INT_MIN, INT_MAX);
+	len_o = printf("%d | %d\n", INT_MIN, INT_MAX);
+
+	printf("Lenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n", len_o);
+
+    len = ft_printf("Here are some basic conversions: \
+		%c %s %p\n", 'A', "hello", &main);
+    len_o = printf("Here are some basic conversions: \
+		%c %s %p\n",'A', "hello", &main);
 	
 	printf("Lenght ft_printf: %d\n", len);
 	ft_printf("Lenght printf: %d\n", len_o);

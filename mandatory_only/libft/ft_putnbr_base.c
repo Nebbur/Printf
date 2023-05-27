@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print.c                                         :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rboia-pe <rboia-pe@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: rboia-pe <rboia-pe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/07 02:19:58 by rboia-pe          #+#    #+#             */
-/*   Updated: 2023/04/07 02:19:58 by rboia-pe         ###   ########.fr       */
+/*   Created: 2023/03/20 09:58:55 by rboia-pe          #+#    #+#             */
+/*   Updated: 2023/03/21 08:57:49 by rboia-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_base_rec(int nbr, char *base, int size)
+int	ft_putnbr_base_rec(int nbr, char *base, int size)
 {
 	unsigned char	a;
 	unsigned int	n;
+	unsigned int	count;
 
+	count = 0;
 	if (nbr < 0)
 	{
-		write(1, "-", 1);
+		count += ft_putchar('-');
 		n = nbr * (-1);
 	}
 	else
@@ -27,7 +29,8 @@ void	ft_putnbr_base_rec(int nbr, char *base, int size)
 	if (n >= (unsigned int)size)
 		ft_putnbr_base_rec(n / size, base, size);
 	a = base[n % size];
-	write(1, &a, 1);
+	count += ft_putchar(a);
+	return (count);
 }
 
 int	ft_ver_bas(char *base)
@@ -46,15 +49,31 @@ int	ft_ver_bas(char *base)
 	return (1);
 }
 
-void	ft_putnbr_base(int nbr, char *base)
+int	ft_putnbr_base(int nbr, char *base)
 {
-	int	s;
+	int	i;
+	int	count;
 
-	s = 0;
+	count = 0;
+	i = 0;
 	if (ft_ver_bas(base) == 1)
 	{
-		while (base[s] != '\0')
-			s++;
-		ft_putnbr_base_rec(nbr, base, s);
+		while (base[i] != '\0')
+			i++;
+		count += ft_putnbr_base_rec(nbr, base, i);
 	}
+	return (count);
 }
+
+/*int main()
+{
+<32 espaco para tras| 127 DEL | 43 + | 45 -
+	printf(" - Binario");
+	ft_putnbr_base(69, "01");
+	printf("\n - Decimal");
+	ft_putnbr_base(-696969, "0123456789");
+	printf("\n - Hexadecimal");
+	ft_putnbr_base(9898, "0123456789ABCDEF");
+	printf("\n - Octal");
+	ft_putnbr_base(27, "01234567");
+}*/

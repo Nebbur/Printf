@@ -79,6 +79,6 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 
 /*_________________ADDTIONALS FUNCTIONS__________________*/
 
-void	ft_putnbr_base(int nbr, char *base);
+int			ft_putnbr_base(int nbr, char *base);
 
 #endif

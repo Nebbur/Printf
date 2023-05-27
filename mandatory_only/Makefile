@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rboia-pe <rboia-pe@student.42porto.fr>     +#+  +:+       +#+         #
+#    By: rboia-pe <rboia-pe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/08 01:54:21 by rboia-pe          #+#    #+#              #
 #    Updated: 2023/04/08 01:54:21 by rboia-pe         ###   ########.fr        #
@@ -20,16 +20,11 @@ SRCS =	ft_printf.c ft_numbers.c\
 		ft_hexa.c\
 		ft_csp.c
 
-#		ft_fwp2s.c ft_scp_conversion.c\
-		ft_tools.c\
-	ft_to_string_1.c ft_to_string_2.c
-
-
 OBJS	:= ${SRCS:.c=.o}
 
 CC		:= cc
 RM		:= /bin/rm -f
-CFLAGS	:= #-Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror
 
 CL := ar -rc
 RL := ar -s

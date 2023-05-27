@@ -26,11 +26,12 @@
  * Return: Integer
  **/
 
-int _strcmp(char *s1, char *s2)
+int	_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
-	for (i = 0; s1[i] != '\0'; i++)
+	i = -1;
+	while (s1[++i] != '\0')
 	{
 		if (s1[i] != s2[i])
 			return (s1[i] - s2[i]);
@@ -38,70 +39,56 @@ int _strcmp(char *s1, char *s2)
 	return (0);
 }
 
-char *_itoa(unsigned long int value, int base)
+static char	*_itoa(unsigned long int value, int base)
 {
-    // Verifica a base
-    if (base < 2 || base > 36) 
-        return NULL;
+	char				*buffer;
+	int					digit_size[2];
+	unsigned long int	temp;
 
-    // Calcula o tamanho necessário para a string resultante
-    unsigned long int temp = value;
-    int size = 0;
-    while (temp > 0)
+	if (base < 2 || base > 36)
+		return (NULL);
+	temp = value;
+	digit_size[1] = 0;
+	while (temp > 0)
 	{
-        temp /= base;
-        size++;
-    }
-
-    // Aloca memória para a string resultante
-    char *buffer = (char *)malloc((size + 1) * sizeof(char));
-    buffer[size] = '\0';
-
-    // Converte o valor para a base especificada
-    while (value > 0)
+		temp /= base;
+		digit_size[1]++;
+	}
+	buffer = (char *)malloc((digit_size[1] + 1) * sizeof(char));
+	buffer[digit_size[1]] = '\0';
+	while (value > 0)
 	{
-        int digit = value % base;
-        if (digit < 10) {
-            buffer[--size] = digit + '0';
-        } else {
-            buffer[--size] = digit - 10 + 'a';
-        }
-        value /= base;
-    }
-
-    // Retorna a string resultante
-    return buffer;
+		digit_size[0] = value % base;
+		if (digit_size[0] < 10)
+			buffer[--digit_size[1]] = digit_size[0] + '0';
+		else
+			buffer[--digit_size[1]] = digit_size[0] - 10 + 'a';
+		value /= base;
+	}
+	return (buffer);
 }
 
 void	type_p(t_flags *f)
 {
-	char *p_buff;
+	char	*p_buff;
 
 	p_buff = _itoa(va_arg(f->args, unsigned long int), 16);
 	if (!_strcmp(p_buff, "0"))
-		f->len  += (ft_putstr("(nil)"));
-
+		f->len += (ft_putstr("(nil)"));
 	if (_strcmp(p_buff, "-1"))
 	{
- 		f->len += ft_putstr("0x");
- 		f->len += ft_putstr(p_buff);
+		f->len += ft_putstr ("0x");
+		f->len += ft_putstr (p_buff);
 	}
-
-/* 	if (!_strcmp(p_buff, "-1"))
-		f->len += ft_putstr("ffffffffffffffff");
-	else 
-		f->len += ft_putstr(p_buff); */
 }
-
 
 void	type_s(t_flags *f)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	i = -1;
 	str = va_arg(f->args, char *);
-
 	if (str == NULL)
 		str = "(null)";
 	while (str[++i])
@@ -110,9 +97,10 @@ void	type_s(t_flags *f)
 
 void	ft_csp(t_flags *f)
 {
+	char	c;
+
 	if (f->specifier_type == 'c')
 	{
-		char	c;
 		c = (char)va_arg(f->args, int);
 		f->len += ft_putchar(c);
 	}

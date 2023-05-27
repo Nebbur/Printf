@@ -12,10 +12,7 @@
 
 #include "ft_printf.h"
 
-/// @brief 		converts a float into a string or exponent string
-/// @param f 	struct containing the format parameters and the float
-
-size_t	ft_intlen(int n)
+/* static size_t	ft_intlen(int n)
 {
 	long int	len;
 
@@ -27,23 +24,29 @@ size_t	ft_intlen(int n)
 		n /= 10;
 		len++;
 	}
-	printf("Valor de len %ld\n", len);
 	return (len);
-}
+} */
 
 void	type_u(t_flags *f)
 {
-	unsigned int a[10];
-	unsigned int j = 1, m = 1000000000, n, sum = 0;
+	unsigned int	a[10];
+	unsigned int	j;
+	unsigned int	m;
+	unsigned int	n;
+	unsigned int	sum;
 
+	j = 0;
+	m = 1000000000;
+	sum = 0;
 	n = (int)va_arg(f->args, unsigned int);
 	a[0] = n / m;
-	for (; j < 10; j++)
+	while (++j < 10)
 	{
 		m /= 10;
 		a[j] = (n / m) % 10;
 	}
-	for (j = 0; j < 10; j++)
+	j = -1;
+	while (++j < 10)
 	{
 		sum += a[j];
 		if (sum != 0 || j == 9)
@@ -51,39 +54,44 @@ void	type_u(t_flags *f)
 	}
 }
 
-void	type_i(t_flags *f)
+void	type_i(t_flags	*f)
 {
-	int a[10];
-	int j = 1, m = 1000000000, n, sum = 0;
+	int	n;
+	int			digits[10];
+	int			digit_count;
 
 	n = (int)va_arg(f->args, int);
-	if (n < 0)
+	digit_count = 0;
+	if (n == -2147483648)
+	{
+		f->len += ft_putstr("-214");
+		n = 7483648;
+	}
+	else if (n < 0)
 	{
 		n *= -1;
 		f->len += ft_putchar('-');
 	}
-	a[0] = n / m;
-
-	for (; j < 10; j++)
+	while (n > 0 || digit_count == 0)
 	{
-		m /= 10;
-		a[j] = (n / m) % 10;
+		digits[digit_count++] = n % 10;
+		n /= 10;
 	}
-
-	for (j = 0; j < 10; j++)
-	{
-		sum += a[j];
-		if (sum != 0 || j == 9)
-			f->len += ft_putchar('0' + a[j]);
-	}
+	while (--digit_count >= 0)
+		f->len += ft_putchar ('0' + digits[digit_count]);
 }
 
 void	ft_diux(t_flags *f)
 {
-	if (f->specifier_type == 'i' || f->specifier_type == 'd') 
-		type_i(f);
+	int	n;
+	n = (int)va_arg(f->args, int);
+	if (f->specifier_type == 'i' || f->specifier_type == 'd')
+		f->len += ft_putnbr_base(n, "0123456789");
 	else if (f->specifier_type == 'u')
 		type_u(f);
-	else if (f->specifier_type == 'x' || f->specifier_type == 'X')
-		type_x(f);
+	else if (f->specifier_type == 'x')
+		f->len += ft_putnbr_base(n, "0123456789abcdef");
+	else if (f->specifier_type == 'X')
+		f->len += ft_putnbr_base(n, "0123456789ABCDEF");
+
 }

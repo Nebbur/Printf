@@ -84,7 +84,10 @@ char	**ft_split(char const *s, char c)
 
 /*int main()
 {
-	char **res = ft_split("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed gravida pulvinar tortor, ut venenatis magna blandit ac. Etiam sit amet justo vitae odio venenatis tincidunt. Integer at mauris massa.", ' ');
+	char **res = ft_split("Lorem ipsum dolor sit amet, consectetur \
+		adipiscing elit. Sed gravida pulvinar tortor, ut venenatis \
+		magna blandit ac. Etiam sit amet justo vitae odio venenatis \
+		tincidunt. Integer at mauris massa.", ' ');
 
 	if (!res)
 	{

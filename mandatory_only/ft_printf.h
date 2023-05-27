@@ -13,35 +13,43 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include "libft/libft.h"
-#include <stdarg.h>
-#include <stddef.h>
-#include <limits.h>
+# include "libft/libft.h"
 
-#include <stdio.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <limits.h>
 
-typedef struct	s_flags
+typedef struct s_flags
 {
 	va_list	args;
-
 	char	specifier_type;
 	char	*string;
-
 	int		len;
 }				t_flags;
+/*
 
-const char *ft_pf_type(t_flags *f, char *s);
+			|⎺⎺⎺\	/⎺⎺⎺|	   /⎺⎺⎺\	  |⎺⎺⎺⎺⎺⎺⎺⎺⎺|  |⎺⎺⎺⎺\ |⎺⎺|
+			|	 \ /    |	  /	/⎺\ \	   ⎺⎺⎺| |⎺⎺⎺   |     \|  |
+			|	  ⎺     |	 /	⎺⎺⎺	 \		  | |	   |  |\  \  |
+			|   |⎺⎺⎺|   |	/  /⎺⎺⎺\  \       | |	   |  |	\  \ |
+			|   | 	|   |  /  /		\  \  |⎺⎺⎺   ⎺⎺⎺|  |  |	 \  \|
+             ⎺⎺⎺     ⎺⎺⎺   ⎺⎺⎺       ⎺⎺⎺   ⎺⎺⎺⎺⎺⎺⎺⎺⎺    ⎺⎺    ⎺⎺⎺
+*/
+const char	*ft_pf_type(t_flags *f, char *s);
+void		ft_pf_f_init(t_flags *f);
+int			ft_printf(const char *format, ...);
 
-void	ft_pf_f_init(t_flags *f);
-void	ft_diux(t_flags *f);
+/*##################~~~~~NUMBERS~~~~~~###################*/
+void		type_u(t_flags *f);
+void		type_i(t_flags	*f);
+void		ft_diux(t_flags *f);
 
-int		ft_printf(const char *format, ...);
+/*##################~~~~~HEXA~~~~~~###################*/
+void		type_x(t_flags *f);
 
-int ft_putchar(char c);
-void type_x(t_flags *f);
-void ft_csp(t_flags *f);
-void type_s(t_flags *f);
-void type_p(t_flags *f);
-char *_itoa(unsigned long int value, int base);
+/*##################~~~~~CSP~~~~~~###################*/
+void		ft_csp(t_flags *f);
+void		type_s(t_flags *f);
+void		type_p(t_flags *f);
 
 #endif
