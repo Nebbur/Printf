@@ -12,70 +12,41 @@
 
 #include "ft_printf.h"
 
-/* static size_t	ft_intlen(int n)
+void	hexa(unsigned long nbr, char *base, unsigned int size, t_flags *f)
 {
-	long int	len;
-
-	len = 0;
-	if (n <= 0)
-		len++;
-	while (n != 0)
+	if (nbr >= size)
 	{
-		n /= 10;
-		len++;
+		hexa(nbr / size, base, size, f);
+		hexa(nbr % size, base, size, f);
 	}
-	return (len);
-} */
+	else
+		f->len += ft_putchar(base[nbr]);
+}
 
-void	type_u(t_flags *f)
+void	type_s(t_flags *f, char *str)
 {
-	unsigned int	a[10];
-	unsigned int	j;
-	unsigned int	m;
-	unsigned int	n;
-	unsigned int	sum;
-
-	j = 0;
-	m = 1000000000;
-	sum = 0;
-	n = (int)va_arg(f->args, unsigned int);
-	a[0] = n / m;
-	while (++j < 10)
-	{
-		m /= 10;
-		a[j] = (n / m) % 10;
-	}
-	j = -1;
-	while (++j < 10)
-	{
-		sum += a[j];
-		if (sum != 0 || j == 9)
-			f->len += ft_putchar('0' + a[j]);
-	}
+	if (str == NULL)
+		str = "(null)";
+	while (*str)
+		f->len += ft_putchar(*str++);
 }
 
 void	type_i(t_flags	*f)
 {
-	int	n;
 	int			digits[10];
 	int			digit_count;
 
-	n = (int)va_arg(f->args, int);
+	f->n = va_arg(f->args, int);
 	digit_count = 0;
-	if (n == -2147483648)
+	if (f->n < 0)
 	{
-		f->len += ft_putstr("-214");
-		n = 7483648;
-	}
-	else if (n < 0)
-	{
-		n *= -1;
+		f->n *= -1;
 		f->len += ft_putchar('-');
 	}
-	while (n > 0 || digit_count == 0)
+	while (f->n > 0 || digit_count == 0)
 	{
-		digits[digit_count++] = n % 10;
-		n /= 10;
+		digits[digit_count++] = f->n % 10;
+		f->n /= 10;
 	}
 	while (--digit_count >= 0)
 		f->len += ft_putchar ('0' + digits[digit_count]);
@@ -83,15 +54,27 @@ void	type_i(t_flags	*f)
 
 void	ft_diux(t_flags *f)
 {
-	int	n;
-	n = (int)va_arg(f->args, int);
 	if (f->specifier_type == 'i' || f->specifier_type == 'd')
-		f->len += ft_putnbr_base(n, "0123456789");
+		type_i(f);
 	else if (f->specifier_type == 'u')
-		type_u(f);
+		hexa(va_arg(f->args, unsigned int), "0123456789", 10, f);
 	else if (f->specifier_type == 'x')
-		f->len += ft_putnbr_base(n, "0123456789abcdef");
+		hexa(va_arg(f->args, unsigned int), "0123456789abcdef", 16, f);
 	else if (f->specifier_type == 'X')
-		f->len += ft_putnbr_base(n, "0123456789ABCDEF");
-
+		hexa(va_arg(f->args, unsigned int), "0123456789ABCDEF", 16, f);
+	else if (f->specifier_type == 'c')
+		f->len += ft_putchar((char)va_arg(f->args, int));
+	else if (f->specifier_type == 's')
+		type_s(f, va_arg(f->args, char *));
+	else
+	{
+		f->n = va_arg(f->args, long);
+		if (f->n == 0)
+			f->len += (ft_putstr("(nil)"));
+		else
+		{
+			f->len += ft_putstr ("0x");
+			hexa(f->n, "0123456789abcdef", 16, f);
+		}
+	}
 }

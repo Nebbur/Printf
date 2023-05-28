@@ -14,11 +14,8 @@
 
 NAME	:= libftprintf.a
 
-LIBFT	= ./libft/libft.a
-
 SRCS =	ft_printf.c ft_numbers.c\
-		ft_hexa.c\
-		ft_csp.c
+		ft_aux.c
 
 OBJS	:= ${SRCS:.c=.o}
 
@@ -38,21 +35,18 @@ RESET=\033[0m
 all: ${NAME} check
 
 ${NAME}: ${OBJS}
-	$(MAKE) -s -C ./libft
 	@printf "\n$(BLUE)Creating Static library $(GREEN)     DONE$(RESET)\n"
-	cp $(LIBFT) $(NAME) 
 	@printf "$(BLUE)Copy to libftprintf $(GREEN)	     DONE$(RESET)\n"
 	${CL} ${NAME} ${OBJS} 
 	${RL} ${NAME}
 	@printf "$(BLUE)Building libftprintf $(GREEN)        DONE$(RESET)\n\n"
 
 clean:
-	$(MAKE) -s clean -C ./libft
 	${RM} ${OBJS} ./a.out
+	@printf "$(YELLOW)Removing executable file    $(GREEN) DONE$(RESET)\n"
 	@printf "$(YELLOW)Removing all created objects$(GREEN) DONE$(RESET)\n"
 
 fclean: clean
-	$(MAKE) -s fclean -C ./libft
 	${RM} ${NAME}
 	@printf "$(YELLOW)Removing Static library$(GREEN)      DONE$(RESET)\n"
 

@@ -46,10 +46,8 @@ static void	type_init(t_flags *f, char *s)
 const char	*ft_pf_type(t_flags *f, char *s)
 {
 	type_init(f, s);
-	if (ft_strchr("diuxX", f->specifier_type))
+	if (ft_strchr("diuxXcsp", f->specifier_type))
 		ft_diux(f);
-	else
-		ft_csp(f);
 	return ((const char *)s);
 }
 
@@ -60,10 +58,21 @@ void	ft_pf_f_init(t_flags *f)
 		f->len = 0;
 }
 
-int main(void)
+/* int main(void)
 {
 	int	len = 0, len_o = 0;
 
+	len = ft_printf("%uq%u", 21447, 21648);
+	puts("");
+	len_o = printf("%uq%u", 21447, 21648);
+	puts("");
+	printf("Lenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n", len_o);
+
+	len =ft_printf("p: %p %p %p\n", &main, &printf, NULL);
+	len_o = printf("p: %p %p %p\n", &main, &printf, NULL);
+	printf("Lenght ft_printf: %d\n", len);
+	ft_printf("Lenght printf: %d\n", len_o);
     len = ft_printf("x: %x %x %x %x\n", 0x123, 456, 0x789, 0xE9);
     len_o = printf("x: %x %x %x %x\n", 0x123, 456, 0x789, 0xE9);
  	printf("Lenght ft_printf: %d\n", len);
@@ -74,13 +83,13 @@ int main(void)
 	printf("Lenght ft_printf: %d\n", len);
 	ft_printf("Lenght printf: %d\n", len_o);
 	
-	len = ft_printf("%i | %i\n", INT_MIN, INT_MAX);
-	len_o = printf("%i | %i\n", INT_MIN, INT_MAX);
+	len = ft_printf("i: %i | %i\n", INT_MIN, INT_MAX);
+	len_o = printf("i: %i | %i\n", INT_MIN, INT_MAX);
 
 	printf("\nLenght ft_printf: %d\n", len);
 	ft_printf("Lenght printf: %d\n\n", len_o);
-	len = ft_printf("%d | %d\n", INT_MIN, INT_MAX);
-	len_o = printf("%d | %d\n", INT_MIN, INT_MAX);
+	len = ft_printf("d: %d | %d\n", INT_MIN, INT_MAX);
+	len_o = printf("d: %d | %d\n", INT_MIN, INT_MAX);
 
 	printf("Lenght ft_printf: %d\n", len);
 	ft_printf("Lenght printf: %d\n", len_o);
@@ -114,10 +123,5 @@ int main(void)
 	len_o = printf("%d, %d\n", 10, 23);
 	printf("Lenght ft_printf: %d\n", len);
 	ft_printf("Lenght printf: %d\n", len_o);
-
-	len =ft_printf("p: %p %p %p\n", &main, &printf, NULL);
-	len_o = printf("p: %p %p %p\n", &main, &printf, NULL);
-	printf("Lenght ft_printf: %d\n", len);
-	ft_printf("Lenght printf: %d\n", len_o);
   	return (0);
-}
+} */
